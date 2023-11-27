@@ -77,3 +77,23 @@ int max_degree(graph *g){
     }
     return max;
 }
+
+int is_connected(graph *g, int s, int t){
+    int founded, *visited;
+    visited = malloc(sizeof(g->n));
+    for(int i = 0 ; i < g->n ; i++)
+        visited[i] = 0;
+    founded = rec_search(g, visited, s, t);
+    free(visited);
+    return founded;
+}
+
+int rec_search(graph *g, int *visited, int s, int t){
+    if(s==t) return 1;
+    visited[s] = 1;
+    for(int i = 0 ; i < g->n ; i++)
+        if(!visited[i] && g->adj[s][i])
+            if(rec_search(g, visited, i, t));
+                return 1;
+    return 0;
+}
