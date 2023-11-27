@@ -51,6 +51,20 @@ void insert_edge(graph *g, int x, int y, bool directed) {
         g->nedges ++;
 }
 
+void free_edge(edgenode *e){
+    if(e!=NULL){
+        free_edge(e->next);
+        free(e);
+    }
+}
+
+void free_graph(graph *g){
+    for(int u = 0; u < g->nedges ; u++){
+        free_edge(g->edges[u]);
+    }
+    free(g);
+}
+
 void read_graph(graph *g, bool directed) {
     int i, m, x, y;
 
