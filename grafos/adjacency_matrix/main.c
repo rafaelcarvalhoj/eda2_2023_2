@@ -89,7 +89,7 @@ int is_connected(graph *g, int s, int t){
 }
 
 int rec_search(graph *g, int *visited, int s, int t){
-    if(s==t) return 1;
+    if(s == t) return 1;
     visited[s] = 1;
     for(int i = 0 ; i < g->n ; i++)
         if(!visited[i] && g->adj[s][i])
