@@ -10,7 +10,7 @@ stack *create_stack(){
 
 void destroy_stack(stack *s) {
     while (s->top != NULL) {
-        node *rm = s->top;
+        snode *rm = s->top;
         s->top = s->top->next;
         free(rm);
     }
@@ -18,7 +18,7 @@ void destroy_stack(stack *s) {
 }
 
 void push(stack *s, int v){
-    node *new = malloc(sizeof(node));
+    snode *new = malloc(sizeof(snode));
     new->value = v;
     new->next = s->top;
     s->top = new;
@@ -28,13 +28,13 @@ void push(stack *s, int v){
 int pop(stack *s){
     if(s->n == 0) return -1;
     int tmp = s->top->value;
-    node *rm = s->top;
+    snode *rm = s->top;
     s->top = s->top->next;
     free(rm);
     s->n --;
     return tmp;
 }
 
-node *top(stack *s){
+snode *top(stack *s){
     return s->top != NULL ? s->top->value : NULL;
 }

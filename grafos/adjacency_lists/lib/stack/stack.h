@@ -3,10 +3,10 @@
 typedef struct node {
     int value;
     struct node *next;
-} node;
+} snode;
 
 typedef struct{
-    node *top;
+    snode *top;
     int n;
 }stack;
 
@@ -18,6 +18,6 @@ void push(stack *s, int v);
 
 int pop(stack *s);
 
-node *top(stack *s);
+snode *top(stack *s);
 
 #endif
