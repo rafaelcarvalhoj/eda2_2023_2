@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "graph.h"
+#include "stack/stack.h"
 
 graph *create_graph(int n){
     graph *g = malloc(sizeof(graph));
@@ -45,7 +46,7 @@ void remove_edge(graph *g, int u, int v){
     // v -> u
     node *current = g->adjacency_list[v];
     node *prev = NULL;
-    while(current != NULL && current->vertex != u){
+    while(current != NULL AND current->vertex != u){
         prev = current;
         current = current->next;
     }
@@ -61,7 +62,7 @@ void remove_edge(graph *g, int u, int v){
     if(g->directed == FALSE){
         current = g->adjacency_list[u];
         prev = NULL;
-        while(current != NULL && current->vertex != v){
+        while(current != NULL AND current->vertex != v){
             prev = current;
             current = current->next;
         }
@@ -77,7 +78,7 @@ void remove_edge(graph *g, int u, int v){
 
 int has_edge(graph *g, int u, int v){
     node *current = g->adjacency_list[u];
-    while(current != NULL && current->vertex != v){
+    while(current != NULL AND current->vertex != v){
         current = current->next;
     }
     return current != NULL;
@@ -93,4 +94,31 @@ void print_graph(graph *g){
         }
         printf("\n");
     }
+}
+
+int *find_ways(graph *g, int s){
+    int *prev = malloc(sizeof(int) * g->n);
+    for(int i = 0 ; i < g->n; i++)
+        prev[i] = -1;
+    dfs(g, prev, s, s);
+    return prev;
+}
+
+void dfs(graph *g, int *prev, int parent, int current){
+    prev[current] = parent;
+    for(node *tmp = g->adjacency_list[current] ; current != NULL ; current = NEXT(current))
+        if(prev[tmp->vertex] == -1)
+            dfs(g, prev, current, NEXT(tmp));
+}
+
+void print_reversed_way(int v, int *prev){
+    printf("%d ", v);
+    if(prev[v] != v)
+        print_reversed_way(prev[v], prev);
+}
+
+void print_way(int v, int *prev){
+    if(prev[v] != v)
+        print_reversed_way(prev[v], prev);
+    printf("%d ", v);
 }
